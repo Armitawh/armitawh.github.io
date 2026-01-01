@@ -51,7 +51,7 @@
 
 <header>
   <h1>Armita Hemmati</h1>
-  <p>Control and Systems Engineer</p>
+  <p>Control and Systems Engineer | ML & AI Projects</p>
   <div class="social">
     <a href="https://github.com/Armitawh" target="_blank">GitHub</a> |
     <a href="https://www.linkedin.com/in/armita-hemmati-669858267/" target="_blank">LinkedIn</a>
@@ -78,6 +78,9 @@
         const div = document.createElement("div");
         div.className = "repo";
 
+        // Make repo name human-readable
+        const readableName = repo.name.replace(/_/g, ' ');
+
         // Live Pages link if repo has GitHub Pages
         const liveLink = repo.has_pages
           ? `<a href="https://${username}.github.io/${repo.name}/" target="_blank">Live</a>`
@@ -87,8 +90,8 @@
         const imgUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/images/preview.png`;
 
         div.innerHTML = `
-          <img src="${imgUrl}" onerror="this.style.display='none'">
-          <strong>${repo.name}</strong><br>
+          <img src="${imgUrl}" alt="${readableName} Preview" onerror="this.style.display='none'">
+          <strong>${readableName}</strong><br>
           ${repo.description || ""}<br><br>
           <a href="${repo.html_url}" target="_blank">Source</a>
           ${liveLink}
