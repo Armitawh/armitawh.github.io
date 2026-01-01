@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Armita Hemmati | Engineering Portfolio</title>
+  <title>Armita Hemmati | Control and Systems Engineer</title>
 
   <style>
     body {
@@ -18,27 +18,27 @@
       text-align: center;
       padding: 2rem 1rem;
     }
-    section {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    header h1 { margin: 0; font-size: 2.4rem; }
+    header p { margin-top: 0.6rem; font-size: 1rem; opacity: 0.9; }
+    .social a {
+      color: white;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      font-weight: bold;
     }
+    section { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
     .repo {
       background: #fff;
-      margin: 1rem 0;
+      margin: 1.2rem 0;
       padding: 1rem;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
-    .repo a {
-      color: #0b3c5d;
-      font-weight: bold;
-      text-decoration: none;
-      margin-right: 1rem;
-    }
+    .repo a { color: #0b3c5d; font-weight: bold; text-decoration: none; margin-right: 1rem; }
+    .repo img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 0.8rem; }
     footer {
       background: #0b3c5d;
-      color: #fff;
+      color: white;
       text-align: center;
       padding: 1rem;
       margin-top: 2rem;
@@ -52,6 +52,10 @@
 <header>
   <h1>Armita Hemmati</h1>
   <p>Control and Systems Engineer</p>
+  <div class="social">
+    <a href="https://github.com/Armitawh" target="_blank">GitHub</a> |
+    <a href="https://www.linkedin.com/in/armita-hemmati-669858267/" target="_blank">LinkedIn</a>
+  </div>
 </header>
 
 <section>
@@ -60,35 +64,42 @@
 </section>
 
 <footer>
-  © 2026 Armita Hemmati ·
-  <a href="https://github.com/Armitawh" target="_blank" style="color:white;">
-    GitHub
-  </a>
+  © 2026 Armita Hemmati
 </footer>
 
 <script>
-  fetch("https://api.github.com/users/Armitawh/repos?sort=updated")
-    .then(res => res.json())
-    .then(data => {
-      const container = document.getElementById("repos");
+  const username = "Armitawh";
+  const container = document.getElementById("repos");
 
-      data.forEach(repo => {
+  fetch(`https://api.github.com/users/${username}/repos?sort=updated`)
+    .then(res => res.json())
+    .then(repos => {
+      repos.forEach(repo => {
         const div = document.createElement("div");
         div.className = "repo";
 
-        const live = repo.has_pages
-          ? `<a href="https://armitawh.github.io/${repo.name}/" target="_blank">Live</a>`
+        // Live Pages link if repo has GitHub Pages
+        const liveLink = repo.has_pages
+          ? `<a href="https://${username}.github.io/${repo.name}/" target="_blank">Live</a>`
           : "";
 
+        // Image URL (optional, if you add images/preview.png in repo)
+        const imgUrl = `https://raw.githubusercontent.com/${username}/${repo.name}/main/images/preview.png`;
+
         div.innerHTML = `
+          <img src="${imgUrl}" onerror="this.style.display='none'">
           <strong>${repo.name}</strong><br>
           ${repo.description || ""}<br><br>
           <a href="${repo.html_url}" target="_blank">Source</a>
-          ${live}
+          ${liveLink}
         `;
 
         container.appendChild(div);
       });
+    })
+    .catch(err => {
+      container.innerHTML = "<p>Unable to fetch repositories.</p>";
+      console.error(err);
     });
 </script>
 
